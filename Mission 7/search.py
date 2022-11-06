@@ -10,8 +10,17 @@ def get_words(line):
     line = line.lower()
     words = ""
     list = []
-    for i in len(line):
-        if line[i]
+    for i in range(len(line)):
+        if line[i].isalpha():
+            words += line[i]
+        else:
+            if words != "":
+                list.append(words) 
+            words = ""
+        
     return list
 
-print (get_words("mrzfz zerg jtegk ??? ptredcv !gte.vet B. "))
+def create_index(filename):
+    d = {}
+    for i in readfile(filename):
+        d[get_words(i)] = 

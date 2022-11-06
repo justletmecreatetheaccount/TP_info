@@ -21,7 +21,7 @@ class Interface:
 
     def run(self):
         while True:
-            #try :
+            try :
 
                 entry = self.register_entry()
                 command = entry[0]
@@ -41,11 +41,9 @@ class Interface:
                     continue
 
                 self.execute_command(command, param)
-"""
             except :
                 print ("An unforseen even has happend ... ")
                 continue
-"""
 def help(Interface : Interface, param):
     print("Type 'exit' to exit the program")
 
