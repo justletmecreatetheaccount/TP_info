@@ -1,12 +1,21 @@
 def readfile (filename):
+    """
+    pre : ouvre le fichier du nom de 'filename
+    post : retourne une liste avec chaque ligne du fichier
+    """
     try :
         with open (filename) as file:
-            list = file.readlines()
-            return list
+
+            return file.readlines() 
     except:
+
         return []
     
 def get_words(line):
+    """
+    pre : prends une string
+    post : separe la string en mots (ici definis comme ensemble de lettres separes par tout charactere ne fesant pas partie de l'aphabet)
+    """
     line = line.lower()
     words = ""
     list = []
@@ -21,18 +30,22 @@ def get_words(line):
     return list
 
 def create_index(filename):
+    """
+    pre : un ficher contenant du texte
+    post : retourne un dictionnaire contenant chaque mot du fichier ainsi que leur ligne d'apparition
+    """
     d = {}
-    for l in readfile(filename):
-        wds = get_words(l)
+    for l in range(len(readfile(filename))):
+        wds = get_words(readfile(filename)[l])
         for j in wds:
-            if j in d and readfile(filename).index(l) not in d[j]:
-                d[j].append(readfile(filename).index(l))
+            if j in d and l not in d[j]:
+                d[j].append(l)
             else:
-                d[j] = [readfile(filename).index(l)]
+                d[j] = [l]
+
     return d
     
 def get_lines(words, index):
-    print (index)
     if words[0] in index:
         comp = index[words[0]]
     else:
@@ -48,4 +61,5 @@ def get_lines(words, index):
                 break
         if pres: 
             save.append(i)
+
     return save
