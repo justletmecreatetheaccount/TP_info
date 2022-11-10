@@ -6,7 +6,7 @@ Local: Barb 15
 
 Cette mission ne nous laissant pas beaucoup de créativité, nous avons décidé de te challenger sur une énigme pour réussir a faire tourner le fichier search.py !
 
-Bien entendu, si tu ne trouve pas la solution a l'énigme, le code se trouve sur ce github juste au cas ou, mais on croit en toi !
+Bien entendu, si tu ne trouve pas la solution a l'énigme, le code se trouve sur ce github: https://github.com/justletmecreatetheaccount/TP_info/tree/main/Mission%207 juste au cas ou, mais on croit en toi !
 
 Et s'il faut un indice pour la solution, le seul indice que nous pouvons donner est " ZFF3NHc5V2dYY1E= " (rappelle toi, c'est la base !) (et la réponse est pas bien compliquée)
 
