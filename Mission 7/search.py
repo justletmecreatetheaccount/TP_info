@@ -13,7 +13,7 @@ Le gagnant est....roulement de tambours...
 
 PAS DISPO SUR LE GITHUB HEHE FALLAIT TROUVER LA CLE
 
-(Pssst, en fait on a quand même fait un script pour chiffrer ce fichier, s'il t'intéresse il est disponible ici: )
+(Pssst, en fait on a quand même fait un script pour chiffrer ce fichier, s'il t'intéresse il est disponible ici: https://github.com/Kaporos/Enigware)
 
 """
 
