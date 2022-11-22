@@ -26,7 +26,7 @@ def get_words(line):
             if words != "":
                 list.append(words) 
             words = ""
-        
+
     return list
 
 def create_index(filename):
@@ -40,7 +40,7 @@ def create_index(filename):
         for j in wds:
             if j in d and l not in d[j]:
                 d[j].append(l)
-            else:
+            elif j not in d:
                 d[j] = [l]
 
     return d
@@ -63,3 +63,5 @@ def get_lines(words, index):
             save.append(i)
 
     return save
+    
+print (create_index("Test.dat"))
