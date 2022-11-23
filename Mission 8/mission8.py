@@ -14,9 +14,9 @@ class Duree:
             raise ValueError('M is greater than 59')
         if s >= 60:
             raise ValueError('S is greater than 59')
-        if h < -1 or m < -1 or s < -1:
+        if h <= -1 or m <= -1 or s <= -1:
             raise ValueError("No negative times allowed")
-        if h.type() != int or m.type() != int or s.type != int:
+        if type(h) != int or type(m) != int or type(s) != int:
             raise TypeError("Time encoding must be done with integers")
 
         self.hours = h
@@ -30,7 +30,7 @@ class Duree:
         return self.to_seconds() - d.to_seconds()
 
     def apres(self, d):
-        return True if self.delta(d) > -1 else False
+        return True if self.delta(d) > 0 else False
 
     def ajouter(self, d):
         secondes_s = self.to_seconds() + d.to_seconds()
@@ -100,7 +100,7 @@ class album:
         song : chanson
         list_s = ''
         for song in self.songs:
-            list_s += '{:>02} - {} - {} - {} \n'.format(self.songs.index(song) + 1, song.artist, song.title, song.lenght)
+            list_s += '{:>02} - {} - {} - {}\n'.format(self.songs.index(song) + 1, song.artist, song.title, song.lenght)
             
         return 'Album n°{} - {} chansons - {}\n\n'.format (self.id, len(self.songs), self.lenght) + list_s + "\n"
 
@@ -131,6 +131,5 @@ def read_doc():
 
         for a in repertoire:
             print(repertoire[a])
-                
-                
+
 read_doc()
