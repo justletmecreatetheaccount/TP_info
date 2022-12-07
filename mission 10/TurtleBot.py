@@ -4,10 +4,10 @@ import Robot
 
 
 class TurtleBot (Robot.Robot):
-    def __init__(self, nom, x, y):
+    def __init__(self, nom, x=0, y=0):
         super().__init__(nom)
         self.turtle = turtle.Turtle()
-        self.turtle.speed("slowest")
+        self.turtle.speed("fastest")
         self.turtle.color("black")
         self.turtle.penup()
         self.turtle.setx(x)
@@ -36,6 +36,15 @@ class TurtleBot (Robot.Robot):
         self.turtle.pendown()
         self.turtle.right(90)
         self.turtle.penup()
+
+    def angle(self):
+        return self.turtle.heading()
+
+    def x(self):
+        return self.turtle.position()[0]
+
+    def y(self):
+        return self.turtle.position()[1]
 
 
 if __name__ == '__main__':
