@@ -1,19 +1,20 @@
+#Vlad Doniga BARB 15 Groupe 18
 class Duree:
     """
     Classe possédant un attribut hours, minutes et seconds
 
     -1 < hours < 25 => heures (int)
-    -1 < minutes < 61 => minutes (int)
-    -1 < seconds < 61 => secondes (int)
+    -1 < minutes < 60 => minutes (int)
+    -1 < seconds < 60 => secondes (int)
     """
     def __init__(self, h, m, s):
-        
+
         if h > 24:
             raise ValueError("H is greater than 24")
         if m >= 60:
             raise ValueError('M is greater than 59')
         if s >= 60:
-            raise ValueError('S is greater than 59')
+            raise ValueError(f'S is greater than 59 {s}{m}{h}')
         if h <= -1 or m <= -1 or s <= -1:
             raise ValueError("No negative times allowed")
         if type(h) != int or type(m) != int or type(s) != int:
@@ -23,23 +24,26 @@ class Duree:
         self.minutes = m
         self.seconds = s
     
-    def to_seconds(self):
+    def to_secondes(self):
         return (self.hours * 3600) + (self.minutes * 60) + self.seconds
 
     def delta(self, d):
-        return self.to_seconds() - d.to_seconds()
+        return self.to_secondes() - d.to_secondes()
 
     def apres(self, d):
         return True if self.delta(d) > 0 else False
 
     def ajouter(self, d):
-        secondes_s = self.to_seconds() + d.to_seconds()
-        return Duree(secondes_s // 3599, secondes_s % 3600 // 60, (secondes_s % 3600) % 60)
+        secondes_s = self.to_secondes() + d.to_secondes()
+        self.hours = secondes_s // 3600
+        self.minutes = secondes_s % 3600 // 60
+        self.seconds = secondes_s % 3600 % 60
+        return self
 
     def __str__(self):
-        return "{:0>2}::{:0>2}::{:0>2}".format(self.hours, self.minutes, self.seconds)
+        return "{:0>2}:{:0>2}:{:0>2}".format(self.hours, self.minutes, self.seconds)
 
-class chanson:
+class Chanson:
     """
     Classe possédant un attribut titre, artiste et un attribut durée
 
@@ -53,9 +57,9 @@ class chanson:
         self.lenght = d
 
     def __str__(self):
-        return "{} - {} - {}".format(self.lenght, self.artist, self.title)
+        return "{} - {} - {}".format(self.title, self.artist, self.lenght)
 
-class album:
+class Album:
     """
     Classe possédant un attribut numero, une liste d'instances de chanson et un attribut durée
 
@@ -68,7 +72,7 @@ class album:
         self.songs = []
         self.lenght = Duree(0,0,0)
 
-    def add(self, song : chanson):
+    def add(self, song : Chanson):
         """
         Ajoute une instance de chanson à la liste songs de l'album sous certaines conditions
 
@@ -88,7 +92,7 @@ class album:
         if len(self.songs) == 100:
             return False
         
-        if Duree.ajouter(self.lenght, song.lenght).to_seconds() > Duree(1,15,0).to_seconds():
+        if Duree.ajouter(self.lenght, song.lenght).to_secondes() > Duree(1,15,0).to_secondes():
             return False
 
         self.lenght = Duree.ajouter(self.lenght, song.lenght)
@@ -97,7 +101,7 @@ class album:
 
     def __str__(self):
 
-        song : chanson
+        song : Chanson
         list_s = ''
         for song in self.songs:
             list_s += '{:>02} - {} - {} - {}\n'.format(self.songs.index(song) + 1, song.artist, song.title, song.lenght)
@@ -105,31 +109,32 @@ class album:
         return 'Album n°{} - {} chansons - {}\n\n'.format (self.id, len(self.songs), self.lenght) + list_s + "\n"
 
 
-def read_doc():
+#def read_doc():
 
-    with open('music-db.txt') as file:
-        all_songs = []
-        repertoire = {}
+with open('music-db.txt') as file:
+    all_songs = []
+    repertoire = {}
 
-        for line in file:            
-            words = line.split(" ")
-            try:
-                words[0] = chanson(words[0], words[1], Duree(0, int(words[2]), int(words[3])))
-                all_songs.append(words[0])
-            except:
-                raise ValueError(f"Improper file encoding at line {len(all_songs) + 1}")
+    for line in file:
+        words = line.split(" ")
+        try:
+            words[0] = Chanson(words[0], words[1], Duree(0, int(words[2]), int(words[3])))
+            all_songs.append(words[0])
+        except:
+            raise ValueError(f"Improper file encoding at line {len(all_songs) + 1}")
 
-        album_number = 0
-        for song in all_songs:
-            try:
-                if repertoire[album_number].add(song) == False:
-                    raise ValueError("too many musics creating new album")
-            except:
-                album_number += 1
-                repertoire[album_number] = album(album_number)
-                repertoire[album_number].add(song)
+    album_number = 0
+    song : Chanson
+    for song in all_songs:
+        try:
+            if repertoire[album_number].add(song) == False:
+                raise ValueError("too many musics creating new album")
+        except:
+            album_number += 1
+            repertoire[album_number] = Album(album_number)
+            repertoire[album_number].add(song)
 
-        for a in repertoire:
-            print(repertoire[a])
+    for a in repertoire:
+        print(repertoire[a])
 
-read_doc()
+#read_doc()
