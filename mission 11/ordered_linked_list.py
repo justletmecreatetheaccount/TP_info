@@ -1,3 +1,4 @@
+from temps import *
 ####################
 # LinkedList class #
 ####################
@@ -29,6 +30,9 @@ class OrderLinkedList:
         @post: Returns the number of nodes (possibly zero) contained in this linked list.
         """
         return self.__length
+
+    def last(self):
+        return self.__last
 
     def inc_size(self):
         """
@@ -80,18 +84,30 @@ class OrderLinkedList:
         self.orderlist(node)
 
     def orderlist(self, node):
-        while node.value().temps() < node.next().value().temps():
+        node_precedent = None
+        if self.__length == 1:
+            return None
+        if node.next() == None:
+            self.__last = node
+            return None
+        while node.value().temps().to_secondes() > node.next().value().temps().to_secondes():
             if self.__head == node:
                 self.__head = node.next()
                 post_suivant = node.next().next()
                 node.next().set_next(node)
+                node_precedent = self.__head
                 node.set_next(post_suivant)
+                continue
             post_suivant = node.next().next()
             node.next().set_next(node)
+            if node_precedent != None:
+                node_precedent.set_next(node.next())
+            node_precedent = node.next()
             node.set_next(post_suivant)
-            if node.next() is None:
+            if node.next() == None:
                 self.__last = node
-                break
+                return None
+
 
     def print(self):
         """

@@ -1,4 +1,5 @@
 from ordered_linked_list import *
+from temps import *
 
 class Classement(OrderLinkedList):
     """
@@ -7,22 +8,13 @@ class Classement(OrderLinkedList):
     @version 01 Décembre 2019
     """
 
-    def __init__(self, results):
+    def __init__(self, results = []):
         """
         @pre: -
         @post: un classement vide de taille 0 a été créé
         """
-        super.__init__(results)
-        self.__size = self.__length
-
-    def size(self):
-        """
-        Méthode accesseur.
-        Retourne la taille de ce classement.
-        @pre:  -
-        @post: Le nombre de résultats actuellement stockés dans ce classement a été retourné.
-        """
-        return self.__size
+        super().__init__(results)
+        self.__size = self.size()
 
     def get(self,c):
         """
@@ -32,13 +24,14 @@ class Classement(OrderLinkedList):
               classement. Retourne None si le coureur ne figure pas (encore)
               dans le classement.
         """
-        temps = 0
-        result = None
-        node = self.__head
-        for i in range(self.__length):
-            if node.value().coureur() == c and node.value().temps() > temps:
+        temps = Temps(99999999,99999999999,9999999999)
+        node = self.first()
+        result = self.first().value()
+        for i in range(self.size()):
+            if node.value().coureur() == c and node.value().temps().to_secondes() < temps.to_secondes():
                 result = node.value()
                 temps = node.value().temps()
+            node = node.next()
         return result
 
     def get_position(self,c):
@@ -55,10 +48,11 @@ class Classement(OrderLinkedList):
                     A vous de la corriger en utilisant une liste chaînée ordonnée
                     comme structure de données, plutôt qu'une simple dictionnaire.
         """
-        node = self.__head
-        for i in range(self.__length):
+        node = self.first()
+        for i in range(self.size()):
             if node.value().coureur() == c:
                 return i + 1
+            node = node.next()
 
     def remove(self,c):
         """
@@ -69,17 +63,19 @@ class Classement(OrderLinkedList):
               of False si c n'est pas trouvé dans la liste.
         """
 
-        node = self.__head
-        if self.__head.value().coureur() == c:
-            self.__size -= 1
-            self.__head = self.__head.next()
+        node = self.first()
+        if self.first().value().coureur() == c:
+            self.dec_size()
+            self.set_first(self.first().next())
             return c
 
-        for i in range(self.__length):
+        for i in range(self.size()):
             if node.next().value().coureur() == c:
-                self.__size -= 1
+                self.dec_size()
                 node.set_next(node.next().next())
                 return c
+            node = node.next()
+
         return False
 
 
@@ -93,9 +89,9 @@ class Classement(OrderLinkedList):
                avec une ligne par résultat.
         """
         s = ""
-        node = self.__head
-        for c in range(self.__length):
-            s += "  " + str(self.get_position(c)) + " > " + str(node) + "\n"
+        node = self.first()
+        for c in range(self.size()):
+            s += "  " + str(self.get_position(node.value().coureur())) + " > " + str(node) + "\n"
             node = node.next()
 
         return s

@@ -1,3 +1,4 @@
+from temps import *
 class Resultat :
     """
     Le résultat d'un Coureur sur une course cycliste: le coureur et son temps.
